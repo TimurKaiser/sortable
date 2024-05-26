@@ -136,10 +136,14 @@ const setuptable3 = (column) => {
         if (isAMissing) return 1;
         if (isBMissing) return -1;
 
-        const numValA = isNaN(parseFloat(valA)) ? Infinity : parseFloat(valA);
-        const numValB = isNaN(parseFloat(valB)) ? Infinity : parseFloat(valB);
+        const numValA = isNaN(parseFloat(valA[0])) ? Infinity : parseFloat(valA[0]);
+        const numValB = isNaN(parseFloat(valB[0])) ? Infinity : parseFloat(valB[0]);
 
-        return ordre ? (numValA < numValB ? -1 : 1) : (numValA > numValB ? -1 : 1);
+        if (numValA === Infinity && numValB === Infinity) return 0;
+        if (numValA === Infinity) return 1;
+        if (numValB === Infinity) return -1;
+
+        return ordre ? numValA - numValB : numValB - numValA;
     });
 
     styletable();
