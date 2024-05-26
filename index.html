@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superhero Database</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <input type="text" id="search" placeholder="Search by name..." oninput="filterResults()">
+    <label for="page-size">Page size:</label>
+    <select id="page-size" onchange="changePageSize()">
+        <option value="10">10</option>
+        <option value="20" selected>base size 20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="all">All</option>
+    </select>
+    <div id="filterapplied"></div>
+    <table id="superhero-table">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th onclick="SetUpTable('name')">Name</th>
+                <th onclick="SetUpTable('biography.fullName')">Full Name</th>
+                <th onclick="SetUpTable('powerstats.intelligence')">Intelligence</th>
+                <th onclick="SetUpTable('powerstats.strength')">Strength</th>
+                <th onclick="SetUpTable('powerstats.speed')">Speed</th>
+                <th onclick="SetUpTable('powerstats.durability')">Durability</th>
+                <th onclick="SetUpTable('powerstats.power')">Power</th>
+                <th onclick="SetUpTable('powerstats.combat')">Combat</th>
+                <th onclick="SetUpTable('appearance.race')">Race</th>
+                <th onclick="SetUpTable('appearance.gender')">Gender</th>
+                <th onclick="setuptable2('appearance.height')">Height</th>
+                <th onclick="setuptable3('appearance.weight')">Weight</th>
+                <th onclick="SetUpTable('biography.placeOfBirth')">Place of Birth</th>
+                <th onclick="SetUpTable('biography.alignment')">Alignment</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="pagination" class="hidden">
+        <button onclick="prevPage()">Previous</button>
+        <span id="page-info"></span>
+        <button onclick="nextPage()">Next</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
