@@ -82,40 +82,44 @@ const SetUpTable = (column) => {
 const setuptable2 = (column) => {
     const ordre = sortOrder.column === column ? !sortOrder.ordre : true;
     sortOrder = { column, ordre };
-
+    let numValA, numValB;
     filteredHeroes.sort((a, b) => {
         let valA = getallvalue(a, column) || '';
         let valB = getallvalue(b, column) || '';
 
-        const numValA = parseHeight(valA);
-        const numValB = parseHeight(valB);
+        const reg = new RegExp('meters')
 
-        // Placer les valeurs non définies à la fin pour le tri décroissant
-        if (numValA === Infinity && numValB === Infinity) return 0;
-        if (numValA === Infinity) return 1;
-        if (numValB === Infinity) return -1;
+        if (reg.test(valA[1])) {
+            numValA = (isNaN(parseFloat(valA[1])) ? Infinity : parseFloat(valA[1])) * 100;
+            numValB = isNaN(parseFloat(valB[1])) ? Infinity : parseFloat(valB[1]);
+        }
+        if (reg.test(valB[1])) {
+            numValA = isNaN(parseFloat(valA[1])) ? Infinity : parseFloat(valA[1]);
+            numValB = (isNaN(parseFloat(valB[1])) ? Infinity : parseFloat(valB[1])) * 100;
+        }
+        if (reg.test(valB[1]) && reg.test(valA[1])) {
+            numValA = (isNaN(parseFloat(valA[1])) ? Infinity : parseFloat(valA[1])) * 100;
+            numValB = (isNaN(parseFloat(valB[1])) ? Infinity : parseFloat(valB[1])) * 100;
+        }
+        if (!reg.test(valB[1]) && !reg.test(valA[1])) {
+            numValA = isNaN(parseFloat(valA[1])) ? Infinity : parseFloat(valA[1]);
+            numValB = isNaN(parseFloat(valB[1])) ? Infinity : parseFloat(valB[1]);
+        }
 
-        return ordre ? numValA - numValB : numValB - numValA;
+        if (numValA !== numValB) {
+            return ordre ? (numValA < numValB ? -1 : 1) : (numValA > numValB ? -1 : 1);
+        } else if (isNaN(numValA)) {
+            return 0;
+        }
     });
 
     styletable();
     updatePagination();
 };
 
-const parseHeight = (heightArray) => {
-    if (!heightArray || !heightArray.length) return Infinity;
-
-    const cmValue = heightArray.find(val => val.toLowerCase().includes('cm'));
-    if (!cmValue) return Infinity;
-
-    const numVal = parseFloat(cmValue);
-    return isNaN(numVal) ? Infinity : numVal;
-};
-
 const setuptable3 = (column) => {
     const ordre = sortOrder.column === column ? !sortOrder.ordre : true;
     sortOrder = { column, ordre };
-
     filteredHeroes.sort((a, b) => {
         let valA = getallvalue(a, column) || '';
         let valB = getallvalue(b, column) || '';
